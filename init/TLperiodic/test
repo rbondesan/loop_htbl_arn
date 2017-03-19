@@ -1,0 +1,7 @@
+2		: model: TLopen = 0, TLperiodic = 1, alterHS = 2
+5 	   	: L , number of sites = 2*L 
+0          	: K = number of non-contractible lines
+1          	: momentum
+1          	: coupling TL and Perm
+1          	: fugacity of loops, complex number (real,imag) 
+5          	: number of eigenvalues (for arnoldi method)

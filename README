@@ -1,0 +1,49 @@
+loop_htbl_arn:
+-------------
+
+A c++ code to construct and diagonalize quantum Hamiltonians using the
+Arnoldi method. Written by R Bondesan in 2010 and used for the
+numerical computations of the peer-reviewed papers:
+
+Roberto Bondesan, Jesper Lykke Jacobsen, Hubert Saleur,
+`Edge states and conformal boundary conditions in super spin chains
+and super sigma models', Nucl.Phys.B849:461-502,2011, arXiv:1101.4361 [hep-th]
+
+Roberto Bondesan, Thomas Quella,
+`Infinite Matrix Product States for long range SU(N) spin models',
+Nucl.Phys.B886:483-523,2014, arXiv:1405.2971 [cond-mat.str-el]
+
+Installation:
+------------
+
+Install by simply running make. 
+
+Libraries requirements: superlu, arpack, lapack (These can be fetched
+in Mac OS with brew, debian-based distros with apt-get)
+
+Version: 1.0
+Latest test: Mac Os Sierra
+
+Run the code:
+------------
+
+Once successfully compiled, one prepares an init file containing all
+the parameters of the model (what Hamiltonian, length of the system,
+sector, number of low-lying eigenvalues etc.). See
+e.g. init/TLperiodic/test for an example of an init file that compute
+the low-lying states of a loop model. (H=-\sum_{i=1}^{2L} e_i, e_i
+Temperley-Lieb generators). The code is then run as:
+
+./loop_htbl_arn -finit/TLperiodic/test
+
+Please refer to loop_htbl_arn for other command line options.
+
+Note:
+-----
+
+The software uses the arpack++
+(http://www.caam.rice.edu/software/ARPACK/arpack++.html), and the
+present code includes a patched version of it in
+arp++_include/. Unfortunately these still provide many warning due to
+the use of deprecated commands. Extensive tests show that these
+warnings have no consequence on the result of the calculations.

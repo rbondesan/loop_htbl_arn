@@ -1,0 +1,72 @@
+// Class Hamiltonian
+
+#ifndef HAMILTONIAN_HPP
+#define HAMILTONIAN_HPP
+
+// TODO: rewrite everything using polymorphism, 
+// for accomplishing different models. This works only for lbndles
+
+// TODO: pos in size_t !!!
+
+#include <iostream>
+#include <vector>
+#include "loop_htbl_states.hpp"
+#include "parameters.hpp"
+#include "common.hpp"
+#include <cstdlib>
+
+#define DIM_TABLE_ORIG 128
+
+using namespace std;
+
+class Hamiltonian
+{
+public:
+  Hamiltonian(const Parameters& pars);
+  ~Hamiltonian();
+  
+  int act(size_t cur_state, LoopHtblStates &states, vector<double> &tmp_nzval,
+	  vector<int> &tmp_irow, vector<int> &tmp_pcol);
+  int fill_nzval(LoopHtblStates &states, vector<int> out_conf, double coeff,
+		 vector<double> &tmp_nzval, vector<int> &tmp_irow, int first_pos_col);
+  void quicksort_array_val(vector<int> &array, vector<double> &val, int startIndex, 
+			   int endIndex);
+  int split_array_val(vector<int> &array, vector<double> &val, int pivot, 
+				 int startIndex, int endIndex);  
+  template<typename T> void swap(T& left, T& right) {T tmp(left); left = right; right = tmp;};
+  //void swap(int &a, int &b) { int temp; temp = a; a = b; b = temp; };
+  //void swap(double &a, double &b) { double temp; temp = a; a = b; b = temp; };
+  int actPerm(size_t index, VecIntCoeff &in, VecIntCoeff &out);
+  int actTL(size_t index, VecIntCoeff &in, VecIntCoeff &out);
+  int copy_el_comp_partner(vector<int> in_conf, vector<int> &out_conf, int value, int value_p1, 
+			   size_t pos, size_t &p_pos, size_t &p_pos_p1, 
+			   int &small_value_available);
+  int put_std_form(vector<int> &vec);
+  int act_TL_on_two_bound_lines(vector<int> &out_conf, size_t index, 
+				int small_value_available, double &coeff);
+
+  void print_vec(vector<int> v){ size_t ii; for (ii = 0; ii < v.size(); ii++)
+					   cout<<"v["<<ii<<"]="<< v[ii] <<endl;};
+  void symm_blines(vector<VecIntCoeff> &in_conf_coeff_vec, 
+		   vector<VecIntCoeff> &out_conf_coeff_vec);
+  void asymm_blines(vector<VecIntCoeff> &in_conf_coeff_vec, 
+		   vector<VecIntCoeff> &out_conf_coeff_vec);
+  void act_all_perm(vector<VecIntCoeff> &in_conf_coeff_vec, 
+		    vector<VecIntCoeff> &out_conf_coeff_vec);
+  void act_all_perm_sign(vector<VecIntCoeff> &in_conf_coeff_vec, 
+			 vector<VecIntCoeff> &out_conf_coeff_vec);
+private:
+  size_t m;
+  size_t mbar;
+  size_t L;
+  size_t K;
+  size_t Kprime;
+  double u;
+  double v;
+  size_t n_conf;
+  double fugacity;
+  int model;
+
+};
+
+#endif // HAMILTONIAN_HPP
